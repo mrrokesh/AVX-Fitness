@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const AUTO_ADVANCE_MS = 4500;
 
 const SQRT_5000 = Math.sqrt(5000);
 
@@ -155,6 +157,24 @@ const testimonials = [
 
 type Testimonial = (typeof testimonials)[number];
 
+function rotateTestimonials(list: Testimonial[], steps: number): Testimonial[] {
+  const newList = [...list];
+  if (steps > 0) {
+    for (let i = steps; i > 0; i--) {
+      const item = newList.shift();
+      if (!item) return list;
+      newList.push({ ...item, tempId: Math.random() });
+    }
+  } else if (steps < 0) {
+    for (let i = steps; i < 0; i++) {
+      const item = newList.pop();
+      if (!item) return list;
+      newList.unshift({ ...item, tempId: Math.random() });
+    }
+  }
+  return newList;
+}
+
 interface TestimonialCardProps {
   position: number;
   testimonial: Testimonial;
@@ -237,24 +257,11 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({
 export const StaggerTestimonials: React.FC = () => {
   const [cardSize, setCardSize] = useState(365);
   const [testimonialsList, setTestimonialsList] = useState(testimonials);
+  const [paused, setPaused] = useState(false);
 
-  const handleMove = (steps: number) => {
-    const newList = [...testimonialsList];
-    if (steps > 0) {
-      for (let i = steps; i > 0; i--) {
-        const item = newList.shift();
-        if (!item) return;
-        newList.push({ ...item, tempId: Math.random() });
-      }
-    } else {
-      for (let i = steps; i < 0; i++) {
-        const item = newList.pop();
-        if (!item) return;
-        newList.unshift({ ...item, tempId: Math.random() });
-      }
-    }
-    setTestimonialsList(newList);
-  };
+  const handleMove = useCallback((steps: number) => {
+    setTestimonialsList((prev) => rotateTestimonials(prev, steps));
+  }, []);
 
   useEffect(() => {
     const updateSize = () => {
@@ -269,9 +276,30 @@ export const StaggerTestimonials: React.FC = () => {
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
+  useEffect(() => {
+    if (paused) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) return;
+
+    const timer = window.setInterval(() => {
+      handleMove(1);
+    }, AUTO_ADVANCE_MS);
+
+    return () => window.clearInterval(timer);
+  }, [paused, handleMove]);
+
   return (
     <div
       className="relative w-full overflow-hidden bg-transparent h-[480px] sm:h-[540px] md:h-[600px]"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+      onFocus={() => setPaused(true)}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
+          setPaused(false);
+        }
+      }}
     >
       {testimonialsList.map((testimonial, index) => {
         const position =

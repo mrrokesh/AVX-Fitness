@@ -9,9 +9,9 @@ export default function HomePage() {
   return (
     <>
       <RegistrationSection />
-      <HowItWorks />
       <TransformationsPreview />
       <ReviewsSection />
+      <HowItWorks />
       <FAQSection />
       <CTASection />
     </>

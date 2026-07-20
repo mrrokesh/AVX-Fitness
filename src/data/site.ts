@@ -48,6 +48,18 @@ export const siteConfig = {
   bio: "Fat Loss • Muscle Gain • Body Recomposition. AVX Fitness has coached 600+ clients with personal training, custom diet plans, accountability and 90-day transformation focus — online anywhere, anytime, and offline in Salem.",
   announcement:
     "Book a free consultation or join online — limited coaching slots with Kathir this month.",
+  /** Scrolling top-bar phrases (shown uppercase in the marquee). */
+  announcementMarquee: [
+    "Limited trial-session slots this month",
+    "Book your free consultation",
+    "Free trial session included",
+    "No payment to join waitlist",
+    "Personal training",
+    "Custom diet plans",
+    "Online & offline coaching",
+    "Fat loss & muscle gain",
+    "Real results · real coaching",
+  ],
   whatsappPrefill:
     "Hi AVX Fitness, I'm interested in joining. I'd like to know more about your online/offline programs and membership plans.",
   instagramPrefill:

@@ -2,15 +2,30 @@
 
 Marketing website for **AVX Fitness** — online and offline coaching with Kathir in Salem, Tamil Nadu. Built for lead capture, program discovery, and client conversion.
 
+**Live repo:** [github.com/mrrokesh/AVX-Fitness](https://github.com/mrrokesh/AVX-Fitness)
+
 ## Features
 
-- **Registration waitlist** on the home page (`/#waitlist-form`) with multi-step validation
+### Lead capture
+- **Registration waitlist** on the home page (`/#waitlist-form`) with multi-step Zod validation
 - **Contact** and **consultation booking** forms
 - **Resend email** notifications to admin + formatted visitor confirmations
-- **Google Sheets** sync for all form submissions (Apps Script or service account)
+- **Google Sheets** sync via Apps Script web app (recommended) or service account
+- Optional **PostgreSQL** storage (JSON fallback at `data/store/db.json` when `DATABASE_URL` is unset)
+
+### Home page
+- **Blue waitlist hero** — high-contrast headline, gold accent, stats, trust badges, and CTAs on the left; form on the right (desktop)
+- **Scrolling announcement bar** — marquee with coaching highlights and “Book now” link
+- **Auto-advancing testimonials** carousel with manual prev/next controls
+- Section order: waitlist → transformations preview → reviews → **How it works** → FAQ → CTA
+
+### Programs & content
 - **Programs page** with 12-week fat loss posters (auto-swipe carousel on mobile), full program list, and membership plans
-- **Admin dashboard** for lead management
-- Optional **PostgreSQL** storage (JSON fallback when `DATABASE_URL` is unset)
+- **`/programs/weight-loss`** — full 12-week fat loss program content
+- **Transformations page** — gallery, result moments, and Instagram-style reel cards (tap to play with audio)
+
+### Admin
+- Dashboard for lead management and editable top-bar announcement text
 
 ## Stack
 
@@ -32,8 +47,10 @@ Copy `.env.example` to `.env.local` and configure:
 
 | Variable | Purpose |
 | --- | --- |
+| `NEXT_PUBLIC_SITE_URL` | Canonical site URL (required for production) |
 | `ADMIN_NOTIFY_EMAIL` | Inbox for new lead alerts |
 | `RESEND_API_KEY` | Transactional email |
+| `EMAIL_FROM` | Sender address (Resend verified domain) |
 | `GOOGLE_SHEETS_WEBAPP_URL` | Apps Script web app (recommended) |
 | `GOOGLE_SHEETS_WEBAPP_SECRET` | Shared secret for Sheets append |
 | `DATABASE_URL` | Optional PostgreSQL (omit to use `data/store/db.json`) |
@@ -58,10 +75,10 @@ npm run test:sheets
 
 | Route | Purpose |
 | --- | --- |
-| `/` | Home — registration form, how it works, results, FAQ |
+| `/` | Home — waitlist form, results, how it works, FAQ |
 | `/programs` | 12-week program posters, all tracks, membership plans |
 | `/programs/weight-loss` | Full 12-week fat loss program details |
-| `/transformations` | Client results gallery |
+| `/transformations` | Client results gallery and Instagram reels |
 | `/consultation` | Book a free consultation |
 | `/contact` | Contact form + studio map |
 | `/admin/login` | Admin access |
@@ -77,17 +94,31 @@ Legacy redirects:
 ```
 src/
   app/              # Next.js App Router pages and API routes
-  components/       # UI, forms, layout, sections
+  components/
+    forms/          # Registration, contact, booking forms
+    layout/         # Navbar, footer, announcement marquee
+    sections/       # Home sections (waitlist, FAQ, reviews, etc.)
+    transformations/# Results gallery and reels
   data/             # Site config, programs, memberships, content
   lib/
     integrations/   # Email, Google Sheets, Calendar
     validations/    # Zod schemas for all forms
 public/
   images/           # Banners, brand, transformations, 12-week posters
+  videos/           # Instagram reel MP4s (optional)
 scripts/
   google-apps-script/Code.gs
   test-sheets.mjs
 ```
+
+## UI notes
+
+| Area | Behavior |
+| --- | --- |
+| Announcement bar | Blue scrolling marquee; phrases editable in `src/data/site.ts` (`announcementMarquee`) or via admin API |
+| Waitlist section | Blue gradient hero; desktop stats/CTAs animate in on scroll (`WaitlistSupportContent`) |
+| Testimonials | Auto-advance every ~4.5s; pauses on hover |
+| Instagram reels | Portrait 9:16 cards; tap to play with sound; mute toggle while playing |
 
 ## Admin
 
@@ -114,8 +145,15 @@ Edit branding and business details in `src/data/site.ts`:
 - Phone / WhatsApp: `9344740075`
 - Instagram: `@avx_fit`
 - Coach: Kathir
+- Marquee phrases: `announcementMarquee`
 - Programs, memberships, transformations: `src/data/programs.ts`, `src/data/memberships.ts`, `src/data/content.ts`
+
+Add Instagram reel videos under `public/videos/instagram/` (`reel-01.mp4` … `reel-06.mp4`) and reference them in `src/data/content.ts`.
 
 ## Deploy
 
 Set `NEXT_PUBLIC_SITE_URL` to your production domain before deploying (Vercel, etc.). Never commit `.env.local` or service account JSON files.
+
+## Author
+
+**Santhosh Kumar** — [GitHub](https://github.com/mrrokesh)
