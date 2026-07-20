@@ -31,25 +31,9 @@ export function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
-    if (!open) return;
-
-    const scrollY = window.scrollY;
-    const { style } = document.body;
-    style.position = "fixed";
-    style.top = `-${scrollY}px`;
-    style.left = "0";
-    style.right = "0";
-    style.width = "100%";
-    style.overflow = "hidden";
-
+    document.body.style.overflow = open ? "hidden" : "";
     return () => {
-      style.position = "";
-      style.top = "";
-      style.left = "";
-      style.right = "";
-      style.width = "";
-      style.overflow = "";
-      window.scrollTo(0, scrollY);
+      document.body.style.overflow = "";
     };
   }, [open]);
 
@@ -63,23 +47,16 @@ export function Navbar() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  const toggleMenu = () => {
-    setOpen((prev) => !prev);
-  };
-
   return (
     <header
       className={cn(
-        "z-50 transition-all duration-300",
-        open
-          ? "fixed inset-0 z-[80] flex max-h-[100dvh] flex-col lg:sticky lg:inset-auto lg:top-0 lg:z-50 lg:max-h-none"
-          : "sticky top-0",
+        "sticky top-0 z-50 transition-all duration-300",
         scrolled || open
           ? "border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-xl"
           : "border-b border-transparent bg-[var(--bg)]/70 backdrop-blur-md"
       )}
     >
-      <div className="container-site flex shrink-0 items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3 lg:px-8 lg:py-3.5">
+      <div className="container-site flex items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3 lg:px-8 lg:py-3.5">
         <Link
           href="/"
           className="relative z-10 flex min-w-0 max-w-[55%] shrink items-center gap-2 sm:max-w-none sm:gap-2.5"
@@ -148,7 +125,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            onClick={toggleMenu}
+            onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
@@ -157,16 +134,16 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile drawer — full-viewport panel keeps nav bar visible while open */}
+      {/* Mobile drawer — lg+ never shows (desktop uses link nav) */}
       <div
         id="mobile-menu"
         className={cn(
-          "flex-1 overflow-y-auto border-t border-[var(--border)] bg-[var(--bg)] lg:!hidden",
+          "border-t border-[var(--border)] bg-[var(--bg)] lg:!hidden",
           open ? "block" : "hidden"
         )}
       >
         <nav
-          className="flex flex-col px-4 py-2 pb-6"
+          className="flex max-h-[min(85svh,720px)] flex-col overflow-y-auto px-4 py-2 pb-6"
           aria-label="Mobile"
         >
           {navLinks.map((link) => {
