@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { CalendarDays, Menu, X } from "lucide-react";
 import { navLinks, siteConfig } from "@/data/site";
 import { cn } from "@/lib/utils";
@@ -17,8 +17,6 @@ function isActive(pathname: string, href: string) {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(0);
-  const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -31,18 +29,6 @@ export function Navbar() {
   useEffect(() => {
     setOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        setHeaderHeight(headerRef.current.offsetHeight);
-      }
-    };
-
-    updateHeaderHeight();
-    window.addEventListener("resize", updateHeaderHeight);
-    return () => window.removeEventListener("resize", updateHeaderHeight);
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -83,15 +69,17 @@ export function Navbar() {
 
   return (
     <header
-      ref={headerRef}
       className={cn(
-        "sticky top-0 z-50 transition-all duration-300",
+        "z-50 transition-all duration-300",
+        open
+          ? "fixed inset-0 z-[80] flex max-h-[100dvh] flex-col lg:sticky lg:inset-auto lg:top-0 lg:z-50 lg:max-h-none"
+          : "sticky top-0",
         scrolled || open
           ? "border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-xl"
           : "border-b border-transparent bg-[var(--bg)]/70 backdrop-blur-md"
       )}
     >
-      <div className="container-site flex items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3 lg:px-8 lg:py-3.5">
+      <div className="container-site flex shrink-0 items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3 lg:px-8 lg:py-3.5">
         <Link
           href="/"
           className="relative z-10 flex min-w-0 max-w-[55%] shrink items-center gap-2 sm:max-w-none sm:gap-2.5"
@@ -169,17 +157,16 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile drawer — fixed overlay so page scroll position never changes */}
+      {/* Mobile drawer — full-viewport panel keeps nav bar visible while open */}
       <div
         id="mobile-menu"
         className={cn(
-          "fixed inset-x-0 z-[60] overflow-y-auto border-t border-[var(--border)] bg-[var(--bg)] lg:!hidden",
+          "flex-1 overflow-y-auto border-t border-[var(--border)] bg-[var(--bg)] lg:!hidden",
           open ? "block" : "hidden"
         )}
-        style={{ top: headerHeight, bottom: 0 }}
       >
         <nav
-          className="flex min-h-full flex-col px-4 py-2 pb-6"
+          className="flex flex-col px-4 py-2 pb-6"
           aria-label="Mobile"
         >
           {navLinks.map((link) => {
