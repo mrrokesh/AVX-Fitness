@@ -120,7 +120,7 @@ scripts/
 | Announcement bar | Blue scrolling marquee; phrases in `src/data/site.ts` (`announcementMarquee`) or admin API |
 | Waitlist section | Dark wine gradient hero; desktop stats/CTAs animate on scroll (`WaitlistSupportContent`) |
 | Contact icons | Themed badges via `ContactIconBadge` / `ContactLink` in `src/components/icons/` |
-| Footer | Mobile-centered layout; address + call link with icons |
+| Footer | Centered minimal layout: brand → nav → phone/location/Instagram → copyright; Coach / Book Consult / FAQ hidden on mobile (`max-md`) |
 | Float buttons | Crimson WhatsApp + Instagram brand icons (bottom-right) |
 | Testimonials | Auto-advance every ~4.5s; pauses on hover |
 | Instagram reels | Portrait 9:16 cards; tap to play with sound; mute toggle while playing |
@@ -151,6 +151,7 @@ Edit branding and business details in `src/data/site.ts`:
 - Instagram: `@avx_fit`
 - Coach: Kathir
 - Marquee phrases: `announcementMarquee`
+- Footer extra nav links (desktop only): `footerExtraLinks` in `src/data/site.ts`
 - Programs, memberships, transformations: `src/data/programs.ts`, `src/data/memberships.ts`, `src/data/content.ts`
 
 Add Instagram reel videos under `public/videos/instagram/` (`reel-01.mp4` … `reel-06.mp4`) and reference them in `src/data/content.ts`.

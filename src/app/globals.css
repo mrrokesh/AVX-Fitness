@@ -994,6 +994,116 @@ a {
   }
 }
 
+.footer-minimal__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.75rem;
+}
+
+.footer-minimal__brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  transition: opacity 0.15s ease;
+}
+
+.footer-minimal__brand:hover {
+  opacity: 0.92;
+}
+
+.footer-minimal__brand-text {
+  display: block;
+}
+
+.footer-minimal__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem 1.25rem;
+  max-width: 42rem;
+}
+
+.footer-minimal__nav-link {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--on-ink-soft);
+  transition: color 0.15s ease;
+}
+
+.footer-minimal__nav-link:hover {
+  color: var(--on-ink);
+}
+
+.footer-minimal__contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem 1.5rem;
+  max-width: 46rem;
+}
+
+.footer-minimal__contact-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+  color: var(--on-ink-soft);
+  transition: color 0.15s ease;
+}
+
+.footer-minimal__contact-item:hover {
+  color: var(--on-ink);
+}
+
+.footer-minimal__contact-icon {
+  width: 0.95rem;
+  height: 0.95rem;
+  flex-shrink: 0;
+  color: var(--accent-hot);
+}
+
+.footer-minimal__contact-icon--ig {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: transparent;
+}
+
+.footer-minimal__divider {
+  width: min(100%, 28rem);
+  height: 1px;
+  background: color-mix(in srgb, var(--on-ink-soft) 22%, transparent);
+}
+
+.footer-minimal__copy {
+  font-size: 0.72rem;
+  line-height: 1.5;
+  color: var(--on-ink-faint);
+}
+
+.footer-minimal__legal {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.75rem;
+  font-size: 0.68rem;
+  color: var(--on-ink-faint);
+}
+
+.footer-minimal__legal a {
+  transition: color 0.15s ease;
+}
+
+.footer-minimal__legal a:hover {
+  color: var(--on-ink-soft);
+}
+
 .waitlist-card {
   border-radius: 0;
   border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);

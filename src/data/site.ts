@@ -91,7 +91,6 @@ export const footerExtraLinks = [
   { href: "/trainers", label: "Coach" },
   { href: "/consultation", label: "Book Consult" },
   { href: "/faq", label: "FAQ" },
-  { href: "/portal", label: "Client Portal" },
 ] as const;
 
 /** Full-bleed banners for each marketing page. */
