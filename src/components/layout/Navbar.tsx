@@ -47,26 +47,10 @@ export function Navbar() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-
-    const mq = window.matchMedia("(max-width: 1023px)");
-    if (!mq.matches) return;
-
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [open]);
-
-  const toggleMenu = () => {
-    setOpen((prev) => !prev);
-  };
-
   return (
     <header
       className={cn(
-        "z-50 transition-all duration-300",
-        open
-          ? "fixed inset-x-0 top-0 lg:sticky lg:inset-x-auto"
-          : "sticky top-0",
+        "sticky top-0 z-50 transition-all duration-300",
         scrolled || open
           ? "border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-xl"
           : "border-b border-transparent bg-[var(--bg)]/70 backdrop-blur-md"
@@ -141,7 +125,7 @@ export function Navbar() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            onClick={toggleMenu}
+            onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="size-6" /> : <Menu className="size-6" />}
           </button>
@@ -159,7 +143,7 @@ export function Navbar() {
         )}
       >
         <nav
-          className="flex max-h-[min(calc(100svh-4.5rem),720px)] flex-col overflow-y-auto px-4 py-2 pb-6"
+          className="flex max-h-[min(85svh,720px)] flex-col overflow-y-auto px-4 py-2 pb-6"
           aria-label="Mobile"
         >
           {navLinks.map((link) => {
