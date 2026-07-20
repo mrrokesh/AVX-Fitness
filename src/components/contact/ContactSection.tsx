@@ -1,16 +1,14 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { Clock3, Send, UserRound } from "lucide-react";
 import {
-  Camera,
-  Clock3,
-  MapPin,
-  MessageCircle,
-  Navigation,
-  Phone,
-  Send,
-  UserRound,
-} from "lucide-react";
+  ContactIconBadge,
+  type ContactIconKind,
+} from "@/components/icons/ContactIconBadge";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
+import { InstagramIcon } from "@/components/icons/InstagramIcon";
+import { LocationIcon } from "@/components/icons/LocationIcon";
 import { siteConfig } from "@/data/site";
 import { primaryChatUrl, telUrl } from "@/lib/utils";
 import { StudioMap } from "@/components/sections/StudioMap";
@@ -97,12 +95,12 @@ export function ContactSection() {
         </p>
 
         <ul className="mt-8 space-y-0 border-t border-[var(--border)]">
-          <InfoRow icon={<MapPin className="size-4" />} label="Studio">
+          <InfoRow kind="location" label="Studio">
             <p className="font-medium text-[var(--text)]">{siteConfig.legalName}</p>
             <p>{siteConfig.address}</p>
             <p className="mt-1 text-sm">{siteConfig.parkingInfo}</p>
           </InfoRow>
-          <InfoRow icon={<Phone className="size-4" />} label="Phone / WhatsApp">
+          <InfoRow kind="phone" label="Phone / WhatsApp">
             <a href={telUrl(siteConfig.phone)} data-track="phone-click" className="font-medium text-[var(--accent)]">
               {siteConfig.phoneDisplay}
             </a>
@@ -111,12 +109,13 @@ export function ContactSection() {
               href={primaryChatUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="font-medium text-[var(--accent)]"
+              className="inline-flex items-center gap-1.5 font-medium text-[var(--accent)]"
             >
+              <WhatsAppIcon className="size-3.5" />
               Chat on WhatsApp
             </a>
           </InfoRow>
-          <InfoRow icon={<Camera className="size-4" />} label="Instagram">
+          <InfoRow kind="instagram" label="Instagram">
             <a
               href={siteConfig.instagramUrl}
               target="_blank"
@@ -147,28 +146,29 @@ export function ContactSection() {
             href={primaryChatUrl()}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-primary"
+            className="btn btn-primary inline-flex items-center gap-2"
             data-track="whatsapp-contact"
           >
-            <MessageCircle className="size-4" />
+            <WhatsAppIcon className="size-4" />
             WhatsApp now
           </a>
           <a
             href={siteConfig.instagramDmUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-secondary"
+            className="btn btn-secondary inline-flex items-center gap-2"
             data-track="instagram-dm-contact"
           >
+            <InstagramIcon variant="brand" className="size-4" />
             DM on Instagram
           </a>
           <a
             href={siteConfig.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-ghost"
+            className="btn btn-ghost inline-flex items-center gap-2"
           >
-            <Navigation className="size-4" />
+            <LocationIcon className="size-4 text-[var(--accent-hot)]" />
             Directions
           </a>
         </div>
@@ -277,19 +277,25 @@ export function ContactSection() {
 }
 
 function InfoRow({
+  kind,
   icon,
   label,
   children,
 }: {
-  icon: ReactNode;
+  kind?: ContactIconKind;
+  icon?: ReactNode;
   label: string;
   children: ReactNode;
 }) {
   return (
     <li className="flex gap-4 border-b border-[var(--border)] py-5">
-      <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center border border-[var(--border)] text-[var(--accent)]">
-        {icon}
-      </span>
+      {kind ? (
+        <ContactIconBadge kind={kind} />
+      ) : (
+        <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center border border-[var(--border)] text-[var(--accent)]">
+          {icon}
+        </span>
+      )}
       <div className="min-w-0 text-sm leading-relaxed text-[var(--text-muted)]">
         <p className="mb-1 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-[var(--accent)]">
           {label}

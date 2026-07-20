@@ -14,8 +14,9 @@ Marketing website for **AVX Fitness** — online and offline coaching with Kathi
 - Optional **PostgreSQL** storage (JSON fallback at `data/store/db.json` when `DATABASE_URL` is unset)
 
 ### Home page
-- **Blue waitlist hero** — high-contrast headline, gold accent, stats, trust badges, and CTAs on the left; form on the right (desktop)
-- **Scrolling announcement bar** — marquee with coaching highlights and “Book now” link
+- **Wine waitlist hero** — crimson accent headline, animated stats/trust badges, and CTAs on the left; form on the right (desktop)
+- **Scrolling announcement bar** — blue marquee with coaching highlights and “Book now” link
+- **Branded contact icons** — WhatsApp, phone, Instagram, and location icons site-wide (footer, contact, floats, mobile bar)
 - **Auto-advancing testimonials** carousel with manual prev/next controls
 - Section order: waitlist → transformations preview → reviews → **How it works** → FAQ → CTA
 
@@ -96,7 +97,8 @@ src/
   app/              # Next.js App Router pages and API routes
   components/
     forms/          # Registration, contact, booking forms
-    layout/         # Navbar, footer, announcement marquee
+    icons/          # WhatsApp, phone, Instagram, location + ContactIconBadge
+    layout/         # Navbar, footer, announcement marquee, float buttons
     sections/       # Home sections (waitlist, FAQ, reviews, etc.)
     transformations/# Results gallery and reels
   data/             # Site config, programs, memberships, content
@@ -115,8 +117,11 @@ scripts/
 
 | Area | Behavior |
 | --- | --- |
-| Announcement bar | Blue scrolling marquee; phrases editable in `src/data/site.ts` (`announcementMarquee`) or via admin API |
-| Waitlist section | Blue gradient hero; desktop stats/CTAs animate in on scroll (`WaitlistSupportContent`) |
+| Announcement bar | Blue scrolling marquee; phrases in `src/data/site.ts` (`announcementMarquee`) or admin API |
+| Waitlist section | Dark wine gradient hero; desktop stats/CTAs animate on scroll (`WaitlistSupportContent`) |
+| Contact icons | Themed badges via `ContactIconBadge` / `ContactLink` in `src/components/icons/` |
+| Footer | Mobile-centered layout; address + call link with icons |
+| Float buttons | Crimson WhatsApp + Instagram brand icons (bottom-right) |
 | Testimonials | Auto-advance every ~4.5s; pauses on hover |
 | Instagram reels | Portrait 9:16 cards; tap to play with sound; mute toggle while playing |
 
@@ -152,7 +157,17 @@ Add Instagram reel videos under `public/videos/instagram/` (`reel-01.mp4` … `r
 
 ## Deploy
 
-Set `NEXT_PUBLIC_SITE_URL` to your production domain before deploying (Vercel, etc.). Never commit `.env.local` or service account JSON files.
+### GitHub
+
+```bash
+git push origin main
+```
+
+Repository: [github.com/mrrokesh/AVX-Fitness](https://github.com/mrrokesh/AVX-Fitness)
+
+### Production (Vercel / etc.)
+
+Set `NEXT_PUBLIC_SITE_URL` to your production domain before deploying. Never commit `.env.local` or service account JSON files.
 
 ## Author
 

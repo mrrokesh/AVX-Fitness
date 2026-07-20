@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { BadgeCheck, CalendarCheck, MessageCircle, Sparkles } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { siteConfig } from "@/data/site";
 import { cn, primaryChatUrl } from "@/lib/utils";
 
@@ -103,7 +104,7 @@ export function WaitlistSupportContent({
               )}
               style={animated ? { animationDelay: `${520 + index * 100}ms` } : undefined}
             >
-              <Icon className="size-3.5 shrink-0 text-[var(--waitlist-gold)]" aria-hidden />
+              <Icon className="size-3.5 shrink-0 text-[var(--accent-hot)]" aria-hidden />
               <span>{item.text}</span>
             </li>
           );
@@ -121,8 +122,9 @@ export function WaitlistSupportContent({
           href={primaryChatUrl()}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-primary waitlist-btn-whatsapp"
+          className="btn btn-primary waitlist-btn-whatsapp inline-flex items-center gap-2"
         >
+          <WhatsAppIcon className="size-4" />
           WhatsApp now
         </a>
         <Link href="/transformations" className="btn btn-on-dark-outline waitlist-btn-secondary">

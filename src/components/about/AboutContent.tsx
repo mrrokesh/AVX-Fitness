@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Navigation, Phone } from "lucide-react";
+import { ContactIconBadge } from "@/components/icons/ContactIconBadge";
+import { LocationIcon } from "@/components/icons/LocationIcon";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import {
   siteConfig,
   brandPillars,
@@ -126,8 +128,9 @@ export function AboutContent() {
                 href={primaryChatUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn btn-secondary"
+                className="btn btn-secondary inline-flex items-center gap-2"
               >
+                <WhatsAppIcon className="size-4" />
                 WhatsApp now
               </a>
             </GsapReveal>
@@ -337,10 +340,7 @@ export function AboutContent() {
 
                 <ul className="mt-8 space-y-6">
                   <li className="flex gap-3.5">
-                    <MapPin
-                      className="mt-1 size-5 shrink-0 text-[var(--accent)]"
-                      aria-hidden
-                    />
+                    <ContactIconBadge kind="location" className="mt-0.5" />
                     <div>
                       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
                         Address
@@ -354,10 +354,7 @@ export function AboutContent() {
                     </div>
                   </li>
                   <li className="flex gap-3.5">
-                    <Phone
-                      className="mt-1 size-5 shrink-0 text-[var(--accent)]"
-                      aria-hidden
-                    />
+                    <ContactIconBadge kind="phone" className="mt-0.5" />
                     <div>
                       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
                         Call / WhatsApp
@@ -370,6 +367,22 @@ export function AboutContent() {
                       </a>
                     </div>
                   </li>
+                  <li className="flex gap-3.5">
+                    <ContactIconBadge kind="instagram" className="mt-0.5" />
+                    <div>
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+                        Instagram
+                      </p>
+                      <a
+                        href={siteConfig.instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1 block text-sm font-medium text-[var(--text)] hover:text-[var(--accent)]"
+                      >
+                        {siteConfig.instagram}
+                      </a>
+                    </div>
+                  </li>
                 </ul>
               </div>
 
@@ -378,17 +391,18 @@ export function AboutContent() {
                   href={siteConfig.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-primary"
+                  className="btn btn-primary inline-flex items-center gap-2"
                 >
-                  <Navigation className="size-4" aria-hidden />
+                  <LocationIcon className="size-4" aria-hidden />
                   Get directions
                 </a>
                 <a
                   href={primaryChatUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-secondary"
+                  className="btn btn-secondary inline-flex items-center gap-2"
                 >
+                  <WhatsAppIcon className="size-4" />
                   WhatsApp us
                 </a>
                 <Link href="/consultation" className="btn btn-ghost">

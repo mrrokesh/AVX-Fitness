@@ -662,17 +662,14 @@ a {
 }
 
 .waitlist-page {
-  --waitlist-blue: #2b4494;
-  --waitlist-blue-dark: #1a2f6e;
-  --waitlist-blue-deep: #152558;
-  --waitlist-gold: #f5a623;
-  --waitlist-hero-text: #ffffff;
-  --waitlist-hero-muted: rgba(255, 255, 255, 0.88);
-  background-color: var(--waitlist-blue-deep);
+  --waitlist-accent: var(--accent-hot);
+  --waitlist-hero-text: var(--on-ink);
+  --waitlist-hero-muted: var(--on-ink-soft);
+  background-color: #1a0a10;
   background-image:
-    radial-gradient(circle at 15% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 42%),
-    radial-gradient(circle at 85% 20%, rgba(245, 166, 35, 0.12) 0%, transparent 35%),
-    linear-gradient(165deg, var(--waitlist-blue-deep) 0%, var(--waitlist-blue) 52%, #223b82 100%);
+    radial-gradient(circle at 12% 8%, rgba(255, 45, 74, 0.16) 0%, transparent 42%),
+    radial-gradient(circle at 88% 18%, rgba(224, 18, 54, 0.1) 0%, transparent 36%),
+    linear-gradient(165deg, #1a0a10 0%, #2a0e16 45%, #3a1520 100%);
 }
 
 .waitlist-hero-copy {
@@ -680,7 +677,7 @@ a {
 }
 
 .waitlist-hero-eyebrow {
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--on-ink-faint);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -694,7 +691,7 @@ a {
 }
 
 .waitlist-hero-accent {
-  color: var(--waitlist-gold);
+  color: var(--waitlist-accent);
 }
 
 .waitlist-hero-body {
@@ -702,8 +699,8 @@ a {
 }
 
 .waitlist-stat {
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid color-mix(in srgb, var(--on-ink-soft) 35%, transparent);
+  background: rgba(255, 45, 74, 0.06);
   transition:
     transform 0.25s ease,
     border-color 0.25s ease,
@@ -714,7 +711,7 @@ a {
   font-size: 1.25rem;
   font-weight: 800;
   line-height: 1.1;
-  color: #fff;
+  color: var(--on-ink);
 }
 
 .waitlist-stat-label {
@@ -723,34 +720,34 @@ a {
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--on-ink-soft);
 }
 
 .waitlist-stat--featured {
-  border-color: rgba(245, 166, 35, 0.5);
-  background: linear-gradient(145deg, rgba(245, 166, 35, 0.18), rgba(255, 255, 255, 0.05));
+  border-color: color-mix(in srgb, var(--accent-hot) 55%, transparent);
+  background: linear-gradient(145deg, rgba(255, 45, 74, 0.16), rgba(255, 255, 255, 0.04));
 }
 
 .waitlist-stat--featured .waitlist-stat-value {
-  color: var(--waitlist-gold);
+  color: var(--accent-hot);
 }
 
 .waitlist-stat--rating .waitlist-stat-value {
-  color: var(--waitlist-gold);
-  text-shadow: 0 0 18px rgba(245, 166, 35, 0.35);
+  color: var(--accent-hot);
+  text-shadow: 0 0 18px rgba(255, 45, 74, 0.35);
 }
 
 .waitlist-stat--speed {
-  border-color: rgba(100, 220, 180, 0.4);
-  background: rgba(100, 220, 180, 0.08);
+  border-color: color-mix(in srgb, var(--success) 45%, transparent);
+  background: rgba(10, 107, 66, 0.12);
 }
 
 .waitlist-trust-pill {
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-left: 3px solid var(--waitlist-gold);
+  border: 1px solid color-mix(in srgb, var(--on-ink-soft) 30%, transparent);
+  border-left: 3px solid var(--accent-hot);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
+  background: rgba(255, 45, 74, 0.05);
+  color: var(--on-ink);
   transition:
     transform 0.25s ease,
     background 0.25s ease,
@@ -766,23 +763,23 @@ a {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--on-ink-faint);
 }
 
 .waitlist-actions {
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid color-mix(in srgb, var(--on-ink-soft) 25%, transparent);
 }
 
 .waitlist-btn-gold {
-  border-color: rgba(245, 166, 35, 0.65) !important;
-  color: var(--waitlist-gold) !important;
+  border-color: color-mix(in srgb, var(--accent-hot) 65%, transparent) !important;
+  color: var(--accent-hot) !important;
 }
 
 .waitlist-btn-gold:hover {
-  border-color: var(--waitlist-gold) !important;
-  background: rgba(245, 166, 35, 0.14) !important;
-  color: #fff !important;
+  border-color: var(--accent-hot) !important;
+  background: rgba(255, 45, 74, 0.14) !important;
+  color: var(--on-ink) !important;
 }
 
 .waitlist-btn-secondary:hover {
@@ -803,10 +800,10 @@ a {
 @keyframes waitlist-stat-glow {
   0%,
   100% {
-    box-shadow: 0 0 0 rgba(245, 166, 35, 0);
+    box-shadow: 0 0 0 rgba(255, 45, 74, 0);
   }
   50% {
-    box-shadow: 0 0 22px rgba(245, 166, 35, 0.22);
+    box-shadow: 0 0 22px rgba(255, 45, 74, 0.24);
   }
 }
 
@@ -846,8 +843,8 @@ a {
 
   .waitlist-trust-pill:hover {
     transform: translateX(4px);
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(245, 166, 35, 0.45);
+    background: rgba(255, 45, 74, 0.1);
+    border-color: color-mix(in srgb, var(--accent-hot) 45%, transparent);
   }
 
   .waitlist-btn-whatsapp {
@@ -871,11 +868,137 @@ a {
   }
 }
 
+.contact-icon-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid transparent;
+}
+
+.contact-icon-badge--sm {
+  width: 1.85rem;
+  height: 1.85rem;
+}
+
+.contact-icon-badge--lg {
+  width: 3rem;
+  height: 3rem;
+}
+
+.contact-icon-badge__svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.contact-icon-badge--sm .contact-icon-badge__svg {
+  width: 0.85rem;
+  height: 0.85rem;
+}
+
+.contact-icon-badge--lg .contact-icon-badge__svg {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.contact-icon-badge--lg .contact-icon-badge__ig {
+  width: 1.55rem;
+  height: 1.55rem;
+}
+
+.contact-icon-badge--whatsapp {
+  background: rgba(37, 211, 102, 0.14);
+  border-color: rgba(37, 211, 102, 0.38);
+  color: #25d366;
+}
+
+.contact-icon-badge--phone {
+  background: rgba(224, 18, 54, 0.12);
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  color: var(--accent-hot);
+}
+
+.contact-icon-badge--location {
+  background: rgba(224, 18, 54, 0.1);
+  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  color: var(--accent-hot);
+}
+
+.contact-icon-badge--instagram {
+  background: color-mix(in srgb, var(--bg-ink) 88%, transparent);
+  border-color: color-mix(in srgb, var(--accent-hot) 38%, transparent);
+  padding: 0.12rem;
+}
+
+.contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  transition: color 0.15s ease;
+}
+
+.contact-link:hover {
+  color: var(--on-ink);
+}
+
+.contact-link--static {
+  cursor: default;
+}
+
+.contact-float {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  box-shadow: 0 10px 28px rgba(20, 6, 10, 0.35);
+  transition: transform 0.15s ease;
+}
+
+.contact-float:hover {
+  transform: scale(1.05);
+}
+
+.contact-float--whatsapp {
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(145deg, var(--accent), var(--accent-hot));
+  border: 1px solid color-mix(in srgb, var(--accent-hot) 70%, transparent);
+  color: #fff;
+}
+
+.contact-float--whatsapp .contact-icon-badge__svg {
+  width: 1.45rem;
+  height: 1.45rem;
+}
+
+.contact-float--instagram {
+  width: 3rem;
+  height: 3rem;
+  background: var(--bg-ink);
+  border: 1px solid color-mix(in srgb, var(--accent-hot) 45%, transparent);
+  padding: 0.35rem;
+}
+
+.contact-float--instagram .contact-icon-badge__ig {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 640px) {
+  .contact-float--whatsapp,
+  .contact-float--instagram {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
+}
+
 .waitlist-card {
   border-radius: 0;
-  border: 1px solid rgba(43, 68, 148, 0.18);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   background: #ffffff;
-  box-shadow: 0 20px 50px rgba(15, 37, 88, 0.32);
+  box-shadow: 0 20px 50px rgba(20, 6, 10, 0.35);
 }
 
 .waitlist-label {
@@ -884,16 +1007,16 @@ a {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #1a2f6e;
+  color: #2a0e16;
 }
 
 .waitlist-input {
   width: 100%;
   min-height: 2.85rem;
   border-radius: 0;
-  border: 1px solid rgba(43, 68, 148, 0.22);
-  background: rgba(43, 68, 148, 0.04);
-  color: #0f172a;
+  border: 1px solid rgba(207, 10, 44, 0.22);
+  background: rgba(207, 10, 44, 0.04);
+  color: #14060a;
   padding: 0.75rem 0.9rem;
   font: inherit;
   font-size: 1rem;
@@ -901,14 +1024,14 @@ a {
 
 .waitlist-input:focus {
   outline: none;
-  border-color: var(--waitlist-blue);
-  box-shadow: 0 0 0 3px rgba(43, 68, 148, 0.14);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(207, 10, 44, 0.14);
   background: #ffffff;
 }
 
 @media (max-width: 639px) {
   .waitlist-card {
-    box-shadow: 0 12px 32px rgba(15, 37, 88, 0.24);
+    box-shadow: 0 12px 32px rgba(20, 6, 10, 0.28);
   }
 }
 

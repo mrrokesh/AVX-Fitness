@@ -31,7 +31,7 @@ export function RegistrationSection() {
             <p className="waitlist-hero-body mx-auto mt-3 max-w-xl text-[0.82rem] leading-relaxed sm:text-sm lg:mx-0 lg:mt-4 lg:text-[0.95rem]">
               Most plans fail because they&apos;re built for someone else&apos;s life. This one
               is built around yours — your schedule, your food, your starting point.{" "}
-              <strong className="font-bold text-white">
+              <strong className="font-bold text-[var(--on-ink)]">
                 {siteConfig.membersTrained}+ clients coached with personal training, diet plans,
                 and accountability from {siteConfig.founder}.
               </strong>{" "}
@@ -43,7 +43,7 @@ export function RegistrationSection() {
 
           <div className="min-w-0">
             <RegistrationForm />
-            <p className="mt-4 text-center text-xs leading-relaxed text-white/65 lg:text-left">
+            <p className="mt-4 text-center text-xs leading-relaxed text-[var(--on-ink-soft)] lg:text-left">
               *One waitlist spot per person · Consistency over excuses
             </p>
             <WaitlistSupportContent className="mt-4 lg:hidden" />

@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Phone, CalendarDays, MessageCircle } from "lucide-react";
-import { InstagramIcon } from "@/components/icons/InstagramIcon";
+import { CalendarDays } from "lucide-react";
+import { ContactIconBadge } from "@/components/icons/ContactIconBadge";
 import { siteConfig } from "@/data/site";
 import { primaryChatUrl, telUrl } from "@/lib/utils";
 
@@ -17,10 +17,10 @@ export function MobileActionBar() {
         {siteConfig.phone ? (
           <a
             href={telUrl(siteConfig.phone)}
-            className="btn btn-ghost !rounded-[var(--radius)] !py-3 text-xs"
+            className="btn btn-ghost !inline-flex !items-center !justify-center !gap-2 !rounded-[var(--radius)] !py-3 text-xs"
             data-track="phone-click"
           >
-            <Phone className="size-4" />
+            <ContactIconBadge kind="phone" size="sm" />
             Call
           </a>
         ) : (
@@ -28,10 +28,10 @@ export function MobileActionBar() {
             href={siteConfig.instagramUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-ghost !rounded-[var(--radius)] !py-3 text-xs"
+            className="btn btn-ghost !inline-flex !items-center !justify-center !gap-2 !rounded-[var(--radius)] !py-3 text-xs"
             data-track="instagram-profile-mobile"
           >
-            <InstagramIcon className="size-4" />
+            <ContactIconBadge kind="instagram" size="sm" />
             Instagram
           </a>
         )}
@@ -39,15 +39,15 @@ export function MobileActionBar() {
           href={primaryChatUrl()}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn btn-ghost !rounded-[var(--radius)] !py-3 text-xs"
+          className="btn btn-ghost !inline-flex !items-center !justify-center !gap-2 !rounded-[var(--radius)] !py-3 text-xs"
           data-track="whatsapp-mobile-bar"
         >
-          <MessageCircle className="size-4" />
+          <ContactIconBadge kind="whatsapp" size="sm" />
           Chat
         </a>
         <Link
           href="/consultation"
-          className="btn btn-primary !rounded-[var(--radius)] !py-3 text-xs"
+          className="btn btn-primary !inline-flex !items-center !justify-center !gap-2 !rounded-[var(--radius)] !py-3 text-xs"
           data-track="book-mobile-bar"
         >
           <CalendarDays className="size-4" />

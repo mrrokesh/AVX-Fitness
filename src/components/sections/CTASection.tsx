@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { siteConfig } from "@/data/site";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 import { primaryChatUrl } from "@/lib/utils";
 import Magnet from "@/components/bits/Magnet";
 import { GsapReveal } from "@/components/effects/GsapReveal";
@@ -49,8 +50,9 @@ export function CTASection() {
               href={primaryChatUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-ghost w-full sm:w-auto"
+              className="btn btn-ghost inline-flex w-full items-center justify-center gap-2 sm:w-auto"
             >
+              <WhatsAppIcon className="size-4 text-[#25d366]" />
               WhatsApp {siteConfig.phone}
             </a>
           </div>
