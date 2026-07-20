@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CalendarDays, Menu, X } from "lucide-react";
 import { navLinks, siteConfig } from "@/data/site";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,8 @@ function isActive(pathname: string, href: string) {
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -31,9 +33,37 @@ export function Navbar() {
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        setHeaderHeight(headerRef.current.offsetHeight);
+      }
+    };
+
+    updateHeaderHeight();
+    window.addEventListener("resize", updateHeaderHeight);
+    return () => window.removeEventListener("resize", updateHeaderHeight);
+  }, []);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const scrollY = window.scrollY;
+    const { style } = document.body;
+    style.position = "fixed";
+    style.top = `-${scrollY}px`;
+    style.left = "0";
+    style.right = "0";
+    style.width = "100%";
+    style.overflow = "hidden";
+
     return () => {
-      document.body.style.overflow = "";
+      style.position = "";
+      style.top = "";
+      style.left = "";
+      style.right = "";
+      style.width = "";
+      style.overflow = "";
+      window.scrollTo(0, scrollY);
     };
   }, [open]);
 
@@ -47,26 +77,15 @@ export function Navbar() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-
-    const mq = window.matchMedia("(max-width: 1023px)");
-    if (!mq.matches) return;
-
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [open]);
-
   const toggleMenu = () => {
     setOpen((prev) => !prev);
   };
 
   return (
     <header
+      ref={headerRef}
       className={cn(
-        "z-50 transition-all duration-300",
-        open
-          ? "fixed inset-x-0 top-0 lg:sticky lg:inset-x-auto"
-          : "sticky top-0",
+        "sticky top-0 z-50 transition-all duration-300",
         scrolled || open
           ? "border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-xl"
           : "border-b border-transparent bg-[var(--bg)]/70 backdrop-blur-md"
@@ -150,16 +169,17 @@ export function Navbar() {
         </div>
       </div>
 
-      {/* Mobile drawer — lg+ never shows (desktop uses link nav) */}
+      {/* Mobile drawer — fixed overlay so page scroll position never changes */}
       <div
         id="mobile-menu"
         className={cn(
-          "border-t border-[var(--border)] bg-[var(--bg)] lg:!hidden",
+          "fixed inset-x-0 z-[60] overflow-y-auto border-t border-[var(--border)] bg-[var(--bg)] lg:!hidden",
           open ? "block" : "hidden"
         )}
+        style={{ top: headerHeight, bottom: 0 }}
       >
         <nav
-          className="flex max-h-[min(calc(100svh-4.5rem),720px)] flex-col overflow-y-auto px-4 py-2 pb-6"
+          className="flex min-h-full flex-col px-4 py-2 pb-6"
           aria-label="Mobile"
         >
           {navLinks.map((link) => {
