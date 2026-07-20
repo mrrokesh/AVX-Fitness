@@ -15,7 +15,7 @@ Marketing website for **AVX Fitness** — online and offline coaching with Kathi
 
 ### Home page
 - **Wine waitlist hero** — crimson accent headline, animated stats/trust badges, and CTAs on the left; form on the right (desktop)
-- **Scrolling announcement bar** — blue marquee with coaching highlights and “Book now” link
+- **Scrolling announcement bar** — wine-themed marquee with coaching highlights and “Book now” link
 - **Branded contact icons** — WhatsApp, phone, Instagram, and location icons site-wide (footer, contact, floats, mobile bar)
 - **Auto-advancing testimonials** carousel with manual prev/next controls
 - Section order: waitlist → transformations preview → reviews → **How it works** → FAQ → CTA
@@ -117,7 +117,7 @@ scripts/
 
 | Area | Behavior |
 | --- | --- |
-| Announcement bar | Blue scrolling marquee; phrases in `src/data/site.ts` (`announcementMarquee`) or admin API |
+| Announcement bar | Wine/crimson scrolling marquee; phrases in `src/data/site.ts` (`announcementMarquee`) or admin API |
 | Waitlist section | Dark wine gradient hero; desktop stats/CTAs animate on scroll (`WaitlistSupportContent`) |
 | Contact icons | Themed badges via `ContactIconBadge` / `ContactLink` in `src/components/icons/` |
 | Footer | Centered minimal layout: brand → nav → phone/location/Instagram → copyright; Coach / Book Consult / FAQ hidden on mobile (`max-md`) |

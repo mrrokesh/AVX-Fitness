@@ -37,8 +37,8 @@ function MarqueeStrip({ items, stripId }: { items: string[]; stripId: string }) 
   return (
     <span className="announcement-marquee-strip">
       {phrases.map((phrase, index) => (
-        <span key={`${stripId}-${phrase}-${index}`} className="announcement-marquee-phrase">
-          {phrase}
+        <span key={`${stripId}-${phrase}-${index}`} className="announcement-marquee-item">
+          <span className="announcement-marquee-phrase">{phrase}</span>
           <span className="announcement-marquee-dot" aria-hidden>
             ·
           </span>
