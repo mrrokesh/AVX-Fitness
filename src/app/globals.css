@@ -370,6 +370,17 @@ a {
   transform: translateY(0);
 }
 
+.nav-book-btn {
+  isolation: isolate;
+}
+
+@media (max-width: 1023px) {
+  .nav-book-btn.btn-book::before {
+    opacity: 0.3;
+    filter: blur(4px);
+  }
+}
+
 @keyframes book-pulse {
   0%,
   100% {

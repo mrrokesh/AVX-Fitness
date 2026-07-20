@@ -30,13 +30,6 @@ export function Navbar() {
     setOpen(false);
   }, [pathname]);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   // Close menu when resizing to desktop
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 1024px)");
@@ -47,15 +40,6 @@ export function Navbar() {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  useEffect(() => {
-    if (!open) return;
-
-    const mq = window.matchMedia("(max-width: 1023px)");
-    if (!mq.matches) return;
-
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [open]);
-
   const toggleMenu = () => {
     setOpen((prev) => !prev);
   };
@@ -63,19 +47,16 @@ export function Navbar() {
   return (
     <header
       className={cn(
-        "z-50 transition-all duration-300",
-        open
-          ? "fixed inset-x-0 top-0 lg:sticky lg:inset-x-auto"
-          : "sticky top-0",
+        "sticky top-0 z-50 transition-all duration-300",
         scrolled || open
           ? "border-b border-[var(--border)] bg-[var(--bg)]/95 backdrop-blur-xl"
           : "border-b border-transparent bg-[var(--bg)]/70 backdrop-blur-md"
       )}
     >
-      <div className="container-site flex items-center justify-between gap-2 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3 lg:px-8 lg:py-3.5">
+      <div className="container-site flex min-w-0 items-center justify-between gap-3 px-4 py-2.5 sm:gap-3 sm:px-6 sm:py-3 lg:px-8 lg:py-3.5">
         <Link
           href="/"
-          className="relative z-10 flex min-w-0 max-w-[55%] shrink items-center gap-2 sm:max-w-none sm:gap-2.5"
+          className="relative z-10 flex min-w-0 flex-1 items-center gap-2 overflow-hidden pr-1 sm:max-w-none sm:gap-2.5 sm:pr-0 lg:flex-none"
           aria-label={siteConfig.name}
           onClick={() => setOpen(false)}
         >
@@ -87,7 +68,7 @@ export function Navbar() {
             className="size-9 shrink-0 object-contain sm:size-10 lg:size-11"
             priority
           />
-          <span className="display truncate text-[1.25rem] tracking-tight text-[var(--text)] sm:text-[1.5rem] lg:text-[1.65rem]">
+          <span className="display truncate text-[1.1rem] tracking-tight text-[var(--text)] sm:text-[1.5rem] lg:text-[1.65rem]">
             {siteConfig.shortName}
           </span>
         </Link>
@@ -122,10 +103,13 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="relative z-10 flex shrink-0 items-center gap-1 sm:gap-1.5">
+        <div className="relative z-10 ml-auto flex shrink-0 items-center gap-1 sm:gap-1.5">
           <Link
             href="/consultation"
-            className="btn-book !px-3 !py-2 text-[0.68rem] sm:!px-4 sm:!py-2.5 sm:text-[0.78rem]"
+            className={cn(
+              "nav-book-btn btn-book !px-3 !py-2 text-[0.68rem] sm:!px-4 sm:!py-2.5 sm:text-[0.78rem]",
+              open && "max-lg:hidden"
+            )}
             data-track="nav-book"
             aria-label="Book a free consultation"
           >

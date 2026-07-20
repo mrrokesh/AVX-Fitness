@@ -2,7 +2,7 @@
 
 Marketing website for **AVX Fitness** — online and offline coaching with Kathir in Salem, Tamil Nadu. Built for lead capture, program discovery, and client conversion.
 
-**Live repo:** [github.com/mrrokesh/AVX-Fitness](https://github.com/mrrokesh/AVX-Fitness)
+**Live site:** [avx-fitness.vercel.app](https://avx-fitness.vercel.app) · **Repo:** [github.com/mrrokesh/AVX-Fitness](https://github.com/mrrokesh/AVX-Fitness)
 
 ## Features
 
@@ -117,6 +117,7 @@ scripts/
 
 | Area | Behavior |
 | --- | --- |
+| Mobile navbar | Sticky header with dropdown drawer; page scrolls normally when menu is open (announcement marquee keeps natural scroll); Book CTA hidden in header while menu open |
 | Announcement bar | Wine/crimson scrolling marquee; phrases in `src/data/site.ts` (`announcementMarquee`) or admin API |
 | Waitlist section | Dark wine gradient hero; desktop stats/CTAs animate on scroll (`WaitlistSupportContent`) |
 | Contact icons | Themed badges via `ContactIconBadge` / `ContactLink` in `src/components/icons/` |
