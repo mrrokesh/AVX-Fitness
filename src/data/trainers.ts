@@ -24,7 +24,9 @@ export const trainers: Trainer[] = [
     name: "Kathir",
     role: "Founder & Certified Fitness Trainer",
     photo: "/images/trainers/kathir.jpg",
-    certifications: ["Certified Fitness Trainer"],
+    certifications: [
+      "Certified Fitness Trainer",
+    ],
     specializations: [
       "Fat loss",
       "Muscle gain",
@@ -34,7 +36,7 @@ export const trainers: Trainer[] = [
       "Personal diet plans",
     ],
     yearsExperience: 0,
-    bio: "Founder of AVX Fitness Studio in Salem. Kathir coaches real transformations — fat loss, muscle gain and body recomposition — with personal training, customized nutrition, accountability and progress tracking. Online anywhere, anytime. Offline in Salem. Message WhatsApp 9344740075 to start.",
+    bio: "Founder of AVX Fitness Studio in Salem. Kathir is a certified fitness trainer who has coached 600+ clients through fat loss, muscle gain and body recomposition — with personal training, customized nutrition, accountability and progress tracking. Online anywhere, anytime. Offline in Salem. Message WhatsApp 9344740075 to start.",
     modes: ["In person", "Online coaching", "WhatsApp coaching"],
     availability: "WhatsApp 9344740075 · Instagram DM @avx_fit",
     phone: "9344740075",

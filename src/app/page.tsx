@@ -1,4 +1,5 @@
 import { RegistrationSection } from "@/components/sections/RegistrationSection";
+import { CoachProfile } from "@/components/sections/CoachProfile";
 import { ReviewsSection } from "@/components/sections/ReviewsSection";
 import { CTASection } from "@/components/sections/CTASection";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -9,6 +10,7 @@ export default function HomePage() {
   return (
     <>
       <RegistrationSection />
+      <CoachProfile />
       <TransformationsPreview />
       <ReviewsSection />
       <HowItWorks />
