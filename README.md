@@ -23,6 +23,7 @@ Marketing website for **AVX Fitness** — online and offline coaching with Kathi
   - **Desktop (mouse):** 3D tilt + holographic hover
   - **Mobile / tablet (touch):** rainbow aura border; no tilt
   - Compact pill: **Kathir** · Certified Fitness Trainer · WhatsApp icon
+  - Cert pills below: Fat Loss & Transformation Coach · 600+ Clients Coached · 196k+ followers
 
 ### Programs & content
 - **Programs page** with three tracks: **Fat Loss**, **Muscle Gain**, **Body Recomposition**, plus membership plans
@@ -129,7 +130,7 @@ scripts/
 | Area | Behavior |
 | --- | --- |
 | Mobile navbar | Sticky header with dropdown drawer; page scrolls normally when menu is open; Book CTA hidden while menu open |
-| Coach profile | Desktop: ProfileCard tilt; mobile/tablet: rainbow aura; photo at `public/images/trainers/kathir.jpg` |
+| Coach profile | Desktop: ProfileCard tilt; mobile/tablet: rainbow aura; pill + cert list under photo (`public/images/trainers/kathir.jpg`) |
 | Announcement bar | Wine/crimson scrolling marquee; phrases in `src/data/site.ts` (`announcementMarquee`) or admin API |
 | Waitlist section | Dark wine gradient hero; desktop stats/CTAs animate on scroll |
 | Contact icons | Themed badges via `ContactIconBadge` / `ContactLink` |
@@ -162,7 +163,7 @@ Edit branding and business details in `src/data/site.ts`:
 
 - Phone / WhatsApp: `9344740075`
 - Studio Instagram: `@avx_fit`
-- Coach: Kathir · `@kathir_lifts`
+- Coach: Kathir · `@kathir_lifts` (cert pills in `src/data/trainers.ts`)
 - Marquee phrases: `announcementMarquee`
 - Programs: `src/data/programs.ts` (Fat Loss, Muscle Gain, Body Recomposition)
 - Memberships / transformations: `src/data/memberships.ts`, `src/data/content.ts`
