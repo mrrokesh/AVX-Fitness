@@ -597,9 +597,11 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
                     <div className="text-[0.95rem] font-semibold leading-none text-white/95">
                       {handle}
                     </div>
-                    <div className="whitespace-nowrap text-[0.8rem] leading-none text-white/75">
-                      {status}
-                    </div>
+                    {status ? (
+                      <div className="whitespace-nowrap text-[0.8rem] leading-none text-white/75">
+                        {status}
+                      </div>
+                    ) : null}
                   </div>
                   <button
                     className="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center text-[#25D366] transition hover:scale-105 hover:text-[#3be07a]"

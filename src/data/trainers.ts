@@ -25,7 +25,7 @@ export const trainers: Trainer[] = [
     role: "Founder & Certified Fitness Trainer",
     photo: "/images/trainers/kathir.jpg",
     certifications: [
-      "Certified Fitness Trainer",
+      "Fat Loss & Transformation Coach",
     ],
     specializations: [
       "Fat loss",
