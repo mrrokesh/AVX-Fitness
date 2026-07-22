@@ -42,8 +42,8 @@ export default async function TrainerProfilePage({
           <TrainerProfileCard
             name={trainer.name}
             title="Certified Fitness Trainer"
-            handle={trainer.instagram?.replace(/^@/, "") || "great_kathir"}
-            status={`${siteConfig.membersTrained}+ clients coached`}
+            handle="Kathir"
+            status="Certified Fitness Trainer"
             photo={trainer.photo}
           />
 
@@ -88,7 +88,7 @@ export default async function TrainerProfilePage({
                   className="inline-flex items-center gap-2 rounded-[var(--radius)] border border-[var(--border)] px-4 py-2.5 text-sm font-semibold text-[var(--text)] transition hover:border-[var(--accent)]"
                 >
                   <ContactIconBadge kind="instagram" size="sm" />
-                  {trainer.instagram || "@great_kathir"}
+                  {trainer.instagram || "@kathir_lifts"}
                 </a>
               )}
               <a

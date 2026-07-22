@@ -33,7 +33,7 @@ export const classSchedule: ClassSession[] = [
     difficulty: "Intermediate",
     category: "Strength",
     mode: "In person",
-    programSlug: "strength-training",
+    programSlug: "muscle-building",
   },
   {
     id: "c2",
@@ -50,7 +50,7 @@ export const classSchedule: ClassSession[] = [
     difficulty: "Advanced",
     category: "Conditioning",
     mode: "In person",
-    programSlug: "hiit",
+    programSlug: "weight-loss",
   },
   {
     id: "c3",
@@ -67,7 +67,7 @@ export const classSchedule: ClassSession[] = [
     difficulty: "Beginner",
     category: "Beginner",
     mode: "In person",
-    programSlug: "beginner-fitness",
+    programSlug: "body-recomposition",
   },
   {
     id: "c4",
@@ -84,7 +84,7 @@ export const classSchedule: ClassSession[] = [
     difficulty: "Intermediate",
     category: "Functional",
     mode: "In person",
-    programSlug: "functional-fitness",
+    programSlug: "body-recomposition",
   },
   {
     id: "c5",
@@ -101,7 +101,7 @@ export const classSchedule: ClassSession[] = [
     difficulty: "Beginner",
     category: "Online",
     mode: "Online",
-    programSlug: "online-coaching",
+    programSlug: "weight-loss",
   },
   {
     id: "c6",
@@ -118,7 +118,7 @@ export const classSchedule: ClassSession[] = [
     difficulty: "Beginner",
     category: "Women",
     mode: "In person",
-    programSlug: "womens-fitness",
+    programSlug: "muscle-building",
   },
   {
     id: "c7",

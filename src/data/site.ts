@@ -25,8 +25,8 @@ export const siteConfig = {
   youtube: "",
   founder: "Kathir",
   founderTitle: "Certified Fitness Trainer",
-  founderInstagram: "@great_kathir",
-  founderInstagramUrl: "https://www.instagram.com/great_kathir/",
+  founderInstagram: "@kathir_lifts",
+  founderInstagramUrl: "https://www.instagram.com/kathir_lifts/",
   logo: "/images/brand/logo.png",
   /** Legacy alias — prefer pageBanners / heroImage */
   promoImage: "/images/banners/studio.jpg",

@@ -49,7 +49,7 @@ export function CoachCertList({ certifications }: CoachCertListProps) {
         />
         <span className="inline-flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5 tabular-nums">
           <span className="inline-flex items-baseline">
-            <CountUp from={100000} to={150000} duration={2.8} delay={0.4} />
+            <CountUp from={100000} to={196000} duration={2.8} delay={0.4} />
             <span>+</span>
           </span>
           <span>followers</span>

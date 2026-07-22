@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import ProfileCard from "@/components/bits/ProfileCard";
+import { AdaptiveCoachCard } from "@/components/trainers/AdaptiveCoachCard";
 import { CoachCertList } from "@/components/trainers/CoachCertList";
 import { ContactIconBadge } from "@/components/icons/ContactIconBadge";
 import { getTrainer } from "@/data/trainers";
@@ -28,21 +28,14 @@ export function CoachProfile({ className = "" }: CoachProfileProps) {
     >
       <div className="container-site">
         <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-14 xl:gap-16">
-          <div className="flex flex-col items-center gap-5 lg:items-stretch">
-            <ProfileCard
+          <div className="flex w-full flex-col items-center gap-5 overflow-visible lg:items-stretch">
+            <AdaptiveCoachCard
               name={trainer.name}
               title="Certified Fitness Trainer"
-              handle={trainer.instagram?.replace(/^@/, "") || "great_kathir"}
-              status={`${siteConfig.membersTrained}+ clients coached`}
-              contactText="WhatsApp"
-              avatarUrl={trainer.photo}
-              miniAvatarUrl={trainer.photo}
-              showUserInfo
-              enableTilt
-              enableMobileTilt={false}
-              behindGlowEnabled={false}
+              handle="Kathir"
+              status="Certified Fitness Trainer"
+              photo={trainer.photo}
               onContactClick={handleContact}
-              className="w-full max-w-[380px]"
             />
 
             <CoachCertList certifications={trainer.certifications} />
@@ -108,7 +101,7 @@ export function CoachProfile({ className = "" }: CoachProfileProps) {
                     data-track="coach-instagram"
                   >
                     <ContactIconBadge kind="instagram" size="sm" />
-                    {trainer.instagram || "@great_kathir"}
+                    {trainer.instagram || "@kathir_lifts"}
                   </a>
                 )}
                 <a

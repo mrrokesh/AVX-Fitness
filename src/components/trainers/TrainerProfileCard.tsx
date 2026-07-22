@@ -1,6 +1,6 @@
 "use client";
 
-import ProfileCard from "@/components/bits/ProfileCard";
+import { AdaptiveCoachCard } from "@/components/trainers/AdaptiveCoachCard";
 import { primaryChatUrl } from "@/lib/utils";
 
 type Props = {
@@ -19,22 +19,15 @@ export function TrainerProfileCard({
   photo,
 }: Props) {
   return (
-    <ProfileCard
+    <AdaptiveCoachCard
       name={name}
       title={title}
       handle={handle}
       status={status}
-      contactText="WhatsApp"
-      avatarUrl={photo}
-      miniAvatarUrl={photo}
-      showUserInfo
-      enableTilt
-      enableMobileTilt={false}
-      behindGlowEnabled={false}
+      photo={photo}
       onContactClick={() => {
         window.open(primaryChatUrl(), "_blank", "noopener,noreferrer");
       }}
-      className="w-full max-w-[380px]"
     />
   );
 }

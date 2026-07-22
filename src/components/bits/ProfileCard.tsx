@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useEffect, useRef, useCallback, useMemo, useState } from "react";
+import React, { useEffect, useRef, useCallback, useMemo } from "react";
+import { WhatsAppIcon } from "@/components/icons/WhatsAppIcon";
 
 const DEFAULT_INNER_GRADIENT =
-  "linear-gradient(145deg,#3a15208c 0%,#c41e3a44 100%)";
+  "linear-gradient(145deg,#3a0a128c 0%,#e0123644 55%,#ff2d4a33 100%)";
+const DEFAULT_BEHIND_GLOW = "rgba(224, 18, 54, 0.55)";
+const DEFAULT_ICON_URL = "/images/profile-icon-pattern.svg";
 
 const ANIMATION_CONFIG = {
   INITIAL_DURATION: 1200,
@@ -37,13 +40,13 @@ interface ProfileCardProps {
   enableTilt?: boolean;
   enableMobileTilt?: boolean;
   mobileTiltSensitivity?: number;
-  miniAvatarUrl?: string;
   name?: string;
   title?: string;
   handle?: string;
   status?: string;
   contactText?: string;
   showUserInfo?: boolean;
+  showDetails?: boolean;
   onContactClick?: () => void;
 }
 
@@ -57,8 +60,8 @@ interface TiltEngine {
 }
 
 const ProfileCardComponent: React.FC<ProfileCardProps> = ({
-  avatarUrl = "",
-  iconUrl = "",
+  avatarUrl = "/images/trainers/kathir.jpg",
+  iconUrl = DEFAULT_ICON_URL,
   grainUrl = "",
   innerGradient,
   behindGlowEnabled = true,
@@ -68,35 +71,36 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   enableTilt = true,
   enableMobileTilt = false,
   mobileTiltSensitivity = 5,
-  miniAvatarUrl,
   name = "Kathir",
   title = "Certified Fitness Trainer",
-  handle = "great_kathir",
+  handle = "kathir_lifts",
   status = "Online",
   contactText = "Contact",
   showUserInfo = true,
+  showDetails = true,
   onContactClick,
 }) => {
   const wrapRef = useRef<HTMLDivElement>(null);
   const shellRef = useRef<HTMLDivElement>(null);
   const enterTimerRef = useRef<number | null>(null);
   const leaveRafRef = useRef<number | null>(null);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const KEYFRAMES_ID = "pc-keyframes";
-    if (!document.getElementById(KEYFRAMES_ID)) {
-      const style = document.createElement("style");
-      style.id = KEYFRAMES_ID;
-      style.textContent = `
-        @keyframes pc-holo-bg {
-          0% { background-position: 0 var(--background-y), 0 0, center; }
-          100% { background-position: 0 var(--background-y), 90% 90%, center; }
-        }
-      `;
-      document.head.appendChild(style);
-    }
+    if (document.getElementById(KEYFRAMES_ID)) return;
+    const style = document.createElement("style");
+    style.id = KEYFRAMES_ID;
+    style.textContent = `
+      @keyframes pc-holo-bg {
+        0% { background-position: 0 var(--background-y), 0 0, center; }
+        100% { background-position: 0 var(--background-y), 90% 90%, center; }
+      }
+    `;
+    document.head.appendChild(style);
+  }, []);
+
+  const setCardOpacity = useCallback((value: string) => {
+    wrapRef.current?.style.setProperty("--card-opacity", value);
   }, []);
 
   const tiltEngine = useMemo<TiltEngine | null>(() => {
@@ -137,9 +141,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         "--rotate-y": `${round(centerY / 4)}deg`,
       };
 
-      for (const [k, v] of Object.entries(properties)) {
-        wrap.style.setProperty(k, v);
-      }
+      for (const [k, v] of Object.entries(properties)) wrap.style.setProperty(k, v);
     };
 
     const step = (ts: number): void => {
@@ -234,6 +236,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
       shell.classList.add("active");
       shell.classList.add("entering");
+      setCardOpacity("1");
       if (enterTimerRef.current) window.clearTimeout(enterTimerRef.current);
       enterTimerRef.current = window.setTimeout(() => {
         shell.classList.remove("entering");
@@ -242,7 +245,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       const { x, y } = getOffsets(event, shell);
       tiltEngine.setTarget(x, y);
     },
-    [tiltEngine]
+    [tiltEngine, setCardOpacity]
   );
 
   const handlePointerLeave = useCallback((): void => {
@@ -256,6 +259,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       const settled = Math.hypot(tx - x, ty - y) < 0.6;
       if (settled) {
         shell.classList.remove("active");
+        setCardOpacity("0");
         leaveRafRef.current = null;
       } else {
         leaveRafRef.current = requestAnimationFrame(checkSettle);
@@ -263,7 +267,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     };
     if (leaveRafRef.current) cancelAnimationFrame(leaveRafRef.current);
     leaveRafRef.current = requestAnimationFrame(checkSettle);
-  }, [tiltEngine]);
+  }, [tiltEngine, setCardOpacity]);
 
   const handleDeviceOrientation = useCallback(
     (event: DeviceOrientationEvent): void => {
@@ -275,11 +279,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
 
       const centerX = shell.clientWidth / 2;
       const centerY = shell.clientHeight / 2;
-      const x = clamp(
-        centerX + gamma * mobileTiltSensitivity,
-        0,
-        shell.clientWidth
-      );
+      const x = clamp(centerX + gamma * mobileTiltSensitivity, 0, shell.clientWidth);
       const y = clamp(
         centerY +
           (beta - ANIMATION_CONFIG.DEVICE_BETA_OFFSET) * mobileTiltSensitivity,
@@ -293,7 +293,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   );
 
   useEffect(() => {
-    if (!mounted || !enableTilt || !tiltEngine) return;
+    if (!enableTilt || !tiltEngine) return;
 
     const shell = shellRef.current;
     if (!shell) return;
@@ -349,7 +349,6 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       shell.classList.remove("entering");
     };
   }, [
-    mounted,
     enableTilt,
     enableMobileTilt,
     tiltEngine,
@@ -364,11 +363,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   const cardStyle = useMemo(
     () =>
       ({
-        "--icon": iconUrl ? `url(${iconUrl})` : "none",
+        "--icon": iconUrl ? `url(${iconUrl})` : `url(${DEFAULT_ICON_URL})`,
         "--grain": grainUrl ? `url(${grainUrl})` : "none",
         "--inner-gradient": innerGradient ?? DEFAULT_INNER_GRADIENT,
-        "--behind-glow-color":
-          behindGlowColor ?? "rgba(196, 30, 58, 0.55)",
+        "--behind-glow-color": behindGlowColor ?? DEFAULT_BEHIND_GLOW,
         "--behind-glow-size": behindGlowSize ?? "50%",
         "--pointer-x": "50%",
         "--pointer-y": "50%",
@@ -381,12 +379,12 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         "--background-x": "50%",
         "--background-y": "50%",
         "--card-radius": cardRadius,
-        "--sunpillar-1": "hsl(2, 100%, 73%)",
-        "--sunpillar-2": "hsl(53, 100%, 69%)",
-        "--sunpillar-3": "hsl(93, 100%, 69%)",
-        "--sunpillar-4": "hsl(176, 100%, 76%)",
-        "--sunpillar-5": "hsl(228, 100%, 74%)",
-        "--sunpillar-6": "hsl(283, 100%, 73%)",
+        "--sunpillar-1": "hsl(350, 100%, 68%)",
+        "--sunpillar-2": "hsl(0, 100%, 66%)",
+        "--sunpillar-3": "hsl(10, 100%, 70%)",
+        "--sunpillar-4": "hsl(20, 95%, 72%)",
+        "--sunpillar-5": "hsl(340, 90%, 68%)",
+        "--sunpillar-6": "hsl(355, 100%, 74%)",
         "--sunpillar-clr-1": "var(--sunpillar-1)",
         "--sunpillar-clr-2": "var(--sunpillar-2)",
         "--sunpillar-clr-3": "var(--sunpillar-3)",
@@ -400,6 +398,83 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   const handleContactClick = useCallback((): void => {
     onContactClick?.();
   }, [onContactClick]);
+
+  const shineStyle: React.CSSProperties = {
+    WebkitMaskImage: "var(--icon)",
+    maskImage: "var(--icon)",
+    WebkitMaskMode: "luminance",
+    maskMode: "luminance",
+    WebkitMaskRepeat: "repeat",
+    maskRepeat: "repeat",
+    WebkitMaskSize: "150%",
+    maskSize: "150%",
+    WebkitMaskPosition:
+      "top calc(200% - (var(--background-y) * 5)) left calc(100% - var(--background-x))",
+    maskPosition:
+      "top calc(200% - (var(--background-y) * 5)) left calc(100% - var(--background-x))",
+    filter: "brightness(0.75) contrast(1.15) saturate(0.45) opacity(0.35)",
+    animation: "pc-holo-bg 18s linear infinite",
+    animationPlayState: "running",
+    mixBlendMode: "soft-light",
+    transform: "translate3d(0, 0, 1px)",
+    overflow: "hidden",
+    zIndex: 1,
+    background: "transparent",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundImage: `
+      repeating-linear-gradient(
+        0deg,
+        var(--sunpillar-clr-1) 5%,
+        var(--sunpillar-clr-2) 10%,
+        var(--sunpillar-clr-3) 15%,
+        var(--sunpillar-clr-4) 20%,
+        var(--sunpillar-clr-5) 25%,
+        var(--sunpillar-clr-6) 30%,
+        var(--sunpillar-clr-1) 35%
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        #1a080c 0%,
+        hsl(350, 18%, 42%) 3.8%,
+        hsl(0, 28%, 48%) 4.5%,
+        hsl(350, 18%, 42%) 5.2%,
+        #1a080c 10%,
+        #1a080c 12%
+      ),
+      radial-gradient(
+        farthest-corner circle at var(--pointer-x) var(--pointer-y),
+        hsla(0, 0%, 0%, 0.1) 12%,
+        hsla(0, 0%, 0%, 0.15) 20%,
+        hsla(0, 0%, 0%, 0.25) 120%
+      )
+    `.replace(/\s+/g, " "),
+    gridArea: "1 / -1",
+    borderRadius: cardRadius,
+    pointerEvents: "none",
+    opacity: "calc(0.12 + 0.38 * var(--card-opacity))",
+    transition: "opacity 200ms ease",
+    zIndex: 1,
+  };
+
+  const glareStyle: React.CSSProperties = {
+    transform: "translate3d(0, 0, 1.1px)",
+    overflow: "hidden",
+    backgroundImage: `radial-gradient(
+      farthest-corner circle at var(--pointer-x) var(--pointer-y),
+      hsl(0, 20%, 95%) 8%,
+      hsla(350, 40%, 35%, 0.35) 55%,
+      transparent 75%
+    )`,
+    mixBlendMode: "soft-light",
+    filter: "brightness(1.05) contrast(1.05)",
+    zIndex: 1,
+    gridArea: "1 / -1",
+    borderRadius: cardRadius,
+    pointerEvents: "none",
+    opacity: "calc(0.35 * var(--card-opacity))",
+    transition: "opacity 200ms ease",
+  };
 
   return (
     <div
@@ -419,7 +494,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
           style={{
             background: `radial-gradient(circle at var(--pointer-x) var(--pointer-y), var(--behind-glow-color) 0%, transparent var(--behind-glow-size))`,
             filter: "blur(50px) saturate(1.1)",
-            opacity: "calc(0.55 * var(--card-opacity))",
+            opacity: "calc(0.8 * var(--card-opacity))",
           }}
         />
       )}
@@ -427,25 +502,25 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
         <section
           className="relative grid overflow-hidden"
           style={{
-            height: "min(80svh, 540px)",
+            height: "80svh",
             maxHeight: "540px",
             aspectRatio: "0.718",
             width: "100%",
             maxWidth: "380px",
             marginInline: "auto",
             borderRadius: cardRadius,
+            backgroundBlendMode: "color-dodge, normal, normal, normal",
             boxShadow:
-              "rgba(0, 0, 0, 0.55) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px",
+              "rgba(0, 0, 0, 0.8) calc((var(--pointer-from-left) * 10px) - 3px) calc((var(--pointer-from-top) * 20px) - 6px) 20px -5px",
             transition: "transform 1s ease",
             transform: "translateZ(0) rotateX(0deg) rotateY(0deg)",
-            background: "#1a0a10",
+            background: "rgba(0, 0, 0, 0.9)",
             backfaceVisibility: "hidden",
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transition = "none";
             e.currentTarget.style.transform =
               "translateZ(0) rotateX(var(--rotate-y)) rotateY(var(--rotate-x))";
-            e.currentTarget.style.setProperty("--card-opacity", "1");
           }}
           onMouseLeave={(e) => {
             const shell = shellRef.current;
@@ -456,48 +531,50 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
             }
             e.currentTarget.style.transform =
               "translateZ(0) rotateX(0deg) rotateY(0deg)";
-            e.currentTarget.style.setProperty("--card-opacity", "0");
           }}
         >
           <div
             className="absolute inset-0"
             style={{
-              background:
-                "linear-gradient(180deg, #1a0a10 0%, #1a0a10 18%, #12080c 28%, transparent 42%)",
+              backgroundImage: "var(--inner-gradient)",
+              backgroundColor: "rgba(0, 0, 0, 0.9)",
               borderRadius: cardRadius,
               display: "grid",
               gridArea: "1 / -1",
             }}
           >
-            {/* Photo below name — anchored to bottom with space above */}
+            <div style={shineStyle} />
+            <div style={glareStyle} />
+
             <div
-              className="overflow-hidden"
+              className="overflow-visible"
               style={{
-                transform: "translateZ(1px)",
+                transform: "translateZ(2px)",
                 gridArea: "1 / -1",
                 borderRadius: cardRadius,
                 pointerEvents: "none",
                 backfaceVisibility: "hidden",
+                zIndex: 2,
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                className="absolute left-1/2 will-change-transform transition-transform duration-[120ms] ease-out"
+                className="absolute left-1/2 max-w-none will-change-transform transition-transform duration-[120ms] ease-out"
                 src={avatarUrl}
                 alt={`${name || "User"} avatar`}
                 loading="lazy"
                 style={{
-                  top: "26%",
                   bottom: "-1px",
-                  width: "108%",
-                  height: "auto",
-                  maxHeight: "78%",
+                  top: showDetails ? "auto" : "0",
+                  width: showDetails ? "108%" : "100%",
+                  height: showDetails ? "78%" : "100%",
                   objectFit: "cover",
-                  objectPosition: "center top",
+                  objectPosition: showDetails ? "center 12%" : "center 18%",
+                  filter: "contrast(1.06) saturate(1.05) brightness(1.04)",
                   transformOrigin: "50% 100%",
                   transform:
                     "translateX(calc(-50% + (var(--pointer-from-left) - 0.5) * 6px)) translateZ(0) scaleY(calc(1 + (var(--pointer-from-top) - 0.5) * 0.02)) scaleX(calc(1 + (var(--pointer-from-left) - 0.5) * 0.01))",
-                  borderRadius: `0 0 ${cardRadius} ${cardRadius}`,
+                  borderRadius: cardRadius,
                   backfaceVisibility: "hidden",
                 }}
                 onError={(e) => {
@@ -507,95 +584,86 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
               />
               {showUserInfo && (
                 <div
-                  className="pointer-events-auto absolute z-[2] flex items-center justify-between border border-white/15"
+                  className="pointer-events-auto absolute z-[2] left-1/2 flex w-max max-w-[calc(100%-28px)] -translate-x-1/2 items-center justify-center gap-2.5 border border-white/10 backdrop-blur-[30px]"
                   style={
                     {
-                      "--ui-inset": "20px",
-                      "--ui-radius-bias": "6px",
-                      bottom: "var(--ui-inset)",
-                      left: "var(--ui-inset)",
-                      right: "var(--ui-inset)",
-                      background: "rgba(0, 0, 0, 0.4)",
-                      backdropFilter: "blur(12px)",
-                      borderRadius:
-                        "calc(max(0px, var(--card-radius) - var(--ui-inset) + var(--ui-radius-bias)))",
-                      padding: "12px 14px",
+                      bottom: "14px",
+                      background: "rgba(255, 255, 255, 0.12)",
+                      borderRadius: "999px",
+                      padding: "7px 10px 7px 14px",
                     } as React.CSSProperties
                   }
                 >
-                  <div className="flex items-center gap-3">
-                    <div
-                      className="shrink-0 overflow-hidden rounded-full border border-white/10"
-                      style={{ width: "48px", height: "48px" }}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        className="h-full w-full rounded-full object-cover"
-                        src={miniAvatarUrl || avatarUrl}
-                        alt={`${name || "User"} mini avatar`}
-                        loading="lazy"
-                        onError={(e) => {
-                          const t = e.target as HTMLImageElement;
-                          t.style.opacity = "0.5";
-                          t.src = avatarUrl;
-                        }}
-                      />
+                  <div className="flex min-w-0 flex-col items-center gap-1 text-center">
+                    <div className="text-[0.95rem] font-semibold leading-none text-white/95">
+                      {handle}
                     </div>
-                    <div className="flex flex-col items-start gap-1.5">
-                      <div className="text-sm font-medium leading-none text-white/90">
-                        @{handle}
-                      </div>
-                      <div className="text-sm leading-none text-white/70">
-                        {status}
-                      </div>
+                    <div className="whitespace-nowrap text-[0.8rem] leading-none text-white/75">
+                      {status}
                     </div>
                   </div>
                   <button
-                    className="cursor-pointer rounded-lg border border-white/10 px-4 py-3 text-xs font-semibold text-white/90 transition-all duration-200 ease-out hover:-translate-y-px hover:border-white/40"
+                    className="inline-flex size-8 shrink-0 cursor-pointer items-center justify-center text-[#25D366] transition hover:scale-105 hover:text-[#3be07a]"
                     onClick={handleContactClick}
                     type="button"
-                    aria-label={`Contact ${name || "user"}`}
+                    aria-label={contactText || `WhatsApp ${name || "user"}`}
                   >
-                    {contactText}
+                    <WhatsAppIcon className="size-5 drop-shadow-[0_2px_6px_rgba(37,211,102,0.45)]" />
                   </button>
                 </div>
               )}
             </div>
 
-            {/* Name above — then space — then photo */}
+            {showDetails && (name || title) && (
             <div
               className="pointer-events-none relative z-[5] max-h-full overflow-hidden text-center"
               style={{
                 transform:
-                  "translate3d(calc(var(--pointer-from-left) * -4px + 2px), calc(var(--pointer-from-top) * -4px + 2px), 0.1px)",
+                  "translate3d(calc(var(--pointer-from-left) * -6px + 3px), calc(var(--pointer-from-top) * -6px + 3px), 0.1px)",
                 gridArea: "1 / -1",
                 borderRadius: cardRadius,
               }}
             >
               <div
-                className="absolute inset-x-0 flex flex-col items-center px-5"
-                style={{ top: "1.75rem" }}
+                className="absolute inset-x-0 flex w-full flex-col px-4"
+                style={{ top: "2.75rem" }}
               >
+                {name ? (
                 <h3
-                  className="m-0 font-semibold tracking-tight text-white"
+                  className="m-0 font-semibold"
                   style={{
-                    fontSize: "clamp(1.75rem, 4.8svh, 2.5rem)",
-                    lineHeight: 1.05,
+                    fontSize: "min(5svh, 3em)",
+                    backgroundImage: "linear-gradient(to bottom, #fff, #e01236)",
+                    backgroundSize: "1em 1.5em",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
                   }}
                 >
                   {name}
                 </h3>
+                ) : null}
+                {title ? (
                 <p
-                  className="mx-auto mt-2 font-medium text-white/80"
+                  className="mx-auto w-min whitespace-nowrap font-semibold"
                   style={{
-                    fontSize: "0.95rem",
-                    letterSpacing: "0.01em",
+                    position: "relative",
+                    top: name ? "-12px" : "0",
+                    fontSize: "16px",
+                    margin: "0 auto",
+                    backgroundImage: "linear-gradient(to bottom, #fff, #ff2d4a)",
+                    backgroundSize: "1em 1.5em",
+                    WebkitTextFillColor: "transparent",
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
                   }}
                 >
                   {title}
                 </p>
+                ) : null}
               </div>
             </div>
+            )}
           </div>
         </section>
       </div>

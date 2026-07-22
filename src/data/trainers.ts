@@ -40,8 +40,8 @@ export const trainers: Trainer[] = [
     modes: ["In person", "Online coaching", "WhatsApp coaching"],
     availability: "WhatsApp 9344740075 · Instagram DM @avx_fit",
     phone: "9344740075",
-    instagram: "@great_kathir",
-    instagramUrl: "https://www.instagram.com/great_kathir/",
+    instagram: "@kathir_lifts",
+    instagramUrl: "https://www.instagram.com/kathir_lifts/",
     filters: [
       "strength-training",
       "fat-loss",

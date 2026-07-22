@@ -10,24 +10,35 @@ const stats = [
     label: "Clients coached",
     render: (
       <>
-        <CountUp
-          to={siteConfig.membersTrained}
-          duration={2.2}
-          className="tabular-nums"
-        />
-        <span aria-hidden>+</span>
+        <span className="inline-flex items-baseline">
+          <CountUp
+            from={100}
+            to={siteConfig.membersTrained}
+            duration={2.2}
+            delay={0.3}
+            className="tabular-nums"
+          />
+          <span aria-hidden>+</span>
+        </span>
       </>
     ),
     accent: true,
   },
   {
     id: "ig",
-    label: "Instagram community",
+    label: "Instagram followers",
     render: (
       <>
-        <CountUp to={4.7} duration={2.4} className="tabular-nums" />
-        <span>K</span>
-        <span aria-hidden>+</span>
+        <span className="inline-flex items-baseline">
+          <CountUp
+            from={100000}
+            to={196000}
+            duration={2.8}
+            delay={0.4}
+            className="tabular-nums"
+          />
+          <span aria-hidden>+</span>
+        </span>
       </>
     ),
     accent: true,

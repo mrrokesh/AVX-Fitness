@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
+  <rect width="120" height="120" fill="#000"/>
+  <g fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="square" opacity="0.95">
+    <path d="M18 28 V18 H28"/>
+    <path d="M102 28 V18 H92"/>
+    <path d="M18 92 V102 H28"/>
+    <path d="M102 92 V102 H92"/>
+    <path d="M48 22 H72"/>
+    <path d="M48 98 H72"/>
+    <path d="M22 48 V72"/>
+    <path d="M98 48 V72"/>
+    <path d="M40 40 H52 V52"/>
+    <path d="M80 40 H68 V52"/>
+    <path d="M40 80 H52 V68"/>
+    <path d="M80 80 H68 V68"/>
+    <rect x="54" y="54" width="12" height="12"/>
+  </g>
+</svg>

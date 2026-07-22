@@ -135,7 +135,7 @@ const testimonials = [
   {
     tempId: 17,
     testimonial:
-      "I DM’d @great_kathir after seeing a reel. Two months in and my energy is completely different.",
+      "I DM’d @kathir_lifts after seeing a reel. Two months in and my energy is completely different.",
     by: "Farah · Beginner · Instagram reel",
     imgSrc: "/images/banners/studio.jpg",
   },
