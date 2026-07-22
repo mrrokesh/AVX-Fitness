@@ -399,7 +399,7 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     onContactClick?.();
   }, [onContactClick]);
 
-  const shineStyle: React.CSSProperties = {
+  const shineStyle = {
     WebkitMaskImage: "var(--icon)",
     maskImage: "var(--icon)",
     WebkitMaskMode: "luminance",
@@ -414,10 +414,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       "top calc(200% - (var(--background-y) * 5)) left calc(100% - var(--background-x))",
     filter: "brightness(0.75) contrast(1.15) saturate(0.45) opacity(0.35)",
     animation: "pc-holo-bg 18s linear infinite",
-    animationPlayState: "running",
-    mixBlendMode: "soft-light",
+    animationPlayState: "running" as const,
+    mixBlendMode: "soft-light" as const,
     transform: "translate3d(0, 0, 1px)",
-    overflow: "hidden",
+    overflow: "hidden" as const,
     zIndex: 1,
     background: "transparent",
     backgroundSize: "cover",
@@ -451,11 +451,10 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
     `.replace(/\s+/g, " "),
     gridArea: "1 / -1",
     borderRadius: cardRadius,
-    pointerEvents: "none",
+    pointerEvents: "none" as const,
     opacity: "calc(0.12 + 0.38 * var(--card-opacity))",
     transition: "opacity 200ms ease",
-    zIndex: 1,
-  };
+  } as React.CSSProperties;
 
   const glareStyle: React.CSSProperties = {
     transform: "translate3d(0, 0, 1.1px)",
