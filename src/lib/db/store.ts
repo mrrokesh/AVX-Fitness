@@ -3,7 +3,13 @@ import path from "path";
 import { nanoid } from "nanoid";
 import type { LeadStatus } from "@/lib/validations/registration";
 
-const DATA_DIR = path.join(process.cwd(), "data", "store");
+/** Vercel/serverless FS is read-only except /tmp — never mkdir under process.cwd() there. */
+const isServerless =
+  Boolean(process.env.VERCEL) || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+
+const DATA_DIR = isServerless
+  ? path.join("/tmp", "avx-fitness", "store")
+  : path.join(process.cwd(), "data", "store");
 
 export type RegistrationRecord = {
   id: string;
@@ -92,29 +98,57 @@ type StoreShape = {
   content: Record<string, string>;
 };
 
+const emptyStore = (): StoreShape => ({
+  registrations: [],
+  bookings: [],
+  failures: [],
+  announcement:
+    "Limited trial-session slots available this month — Book your free consultation.",
+  content: {},
+});
+
+/** Ephemeral fallback when disk writes fail (same-request updates still work). */
+let memoryStore: StoreShape | null = null;
+
 async function ensureStore(): Promise<StoreShape> {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  const file = path.join(DATA_DIR, "db.json");
+  if (memoryStore) return memoryStore;
+
   try {
-    const raw = await fs.readFile(file, "utf8");
-    return JSON.parse(raw) as StoreShape;
-  } catch {
-    const initial: StoreShape = {
-      registrations: [],
-      bookings: [],
-      failures: [],
-      announcement:
-        "Limited trial-session slots available this month — Book your free consultation.",
-      content: {},
-    };
-    await fs.writeFile(file, JSON.stringify(initial, null, 2));
-    return initial;
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    const file = path.join(DATA_DIR, "db.json");
+    try {
+      const raw = await fs.readFile(file, "utf8");
+      memoryStore = JSON.parse(raw) as StoreShape;
+      return memoryStore;
+    } catch {
+      const initial = emptyStore();
+      await fs.writeFile(file, JSON.stringify(initial, null, 2));
+      memoryStore = initial;
+      return initial;
+    }
+  } catch (err) {
+    console.warn(
+      "[store] Falling back to in-memory store:",
+      err instanceof Error ? err.message : err
+    );
+    memoryStore = emptyStore();
+    return memoryStore;
   }
 }
 
 async function writeStore(store: StoreShape) {
-  const file = path.join(DATA_DIR, "db.json");
-  await fs.writeFile(file, JSON.stringify(store, null, 2));
+  memoryStore = store;
+  try {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+    const file = path.join(DATA_DIR, "db.json");
+    await fs.writeFile(file, JSON.stringify(store, null, 2));
+  } catch (err) {
+    // Same-request updates still work via memoryStore; durable save is Sheets/Postgres.
+    console.warn(
+      "[store] Disk write skipped:",
+      err instanceof Error ? err.message : err
+    );
+  }
 }
 
 export async function createRegistration(

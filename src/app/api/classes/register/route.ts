@@ -5,7 +5,12 @@ import { promises as fs } from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
 
-const FILE = path.join(process.cwd(), "data", "store", "class-regs.json");
+const isServerless =
+  Boolean(process.env.VERCEL) || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+
+const FILE = isServerless
+  ? path.join("/tmp", "avx-fitness", "store", "class-regs.json")
+  : path.join(process.cwd(), "data", "store", "class-regs.json");
 
 type ClassReg = {
   id: string;
@@ -17,17 +22,30 @@ type ClassReg = {
   createdAt: string;
 };
 
+let memoryRegs: ClassReg[] | null = null;
+
 async function readRegs(): Promise<ClassReg[]> {
+  if (memoryRegs) return memoryRegs;
   try {
-    return JSON.parse(await fs.readFile(FILE, "utf8")) as ClassReg[];
+    memoryRegs = JSON.parse(await fs.readFile(FILE, "utf8")) as ClassReg[];
+    return memoryRegs;
   } catch {
-    return [];
+    memoryRegs = [];
+    return memoryRegs;
   }
 }
 
 async function writeRegs(rows: ClassReg[]) {
-  await fs.mkdir(path.dirname(FILE), { recursive: true });
-  await fs.writeFile(FILE, JSON.stringify(rows, null, 2));
+  memoryRegs = rows;
+  try {
+    await fs.mkdir(path.dirname(FILE), { recursive: true });
+    await fs.writeFile(FILE, JSON.stringify(rows, null, 2));
+  } catch (err) {
+    console.warn(
+      "[class-regs] Disk write skipped:",
+      err instanceof Error ? err.message : err
+    );
+  }
 }
 
 export async function POST(req: NextRequest) {
